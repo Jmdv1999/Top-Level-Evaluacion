@@ -6,7 +6,7 @@ import TaskForm from './components/Task/TaskForm';
 import TaskList from './components/Task/TaskList';
 import FilterButtons from './components/ui/FilterButtons';
 import TaskCounter from './components/Task/TaskCounter';
-import { Typography, Box, Paper, Link } from '@mui/material'; // Añadido 'Link' aquí
+import { Typography, Box, Paper, Link } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub'; // Importado el icono de GitHub
 import CustomPagination from './components/ui/CustomPagination';
 import { ThemeProvider } from '@mui/material/styles'; // Para el tema de Material-UI
