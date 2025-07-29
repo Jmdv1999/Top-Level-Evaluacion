@@ -6,9 +6,13 @@ import TaskForm from './components/Task/TaskForm';
 import TaskList from './components/Task/TaskList';
 import FilterButtons from './components/ui/FilterButtons';
 import TaskCounter from './components/Task/TaskCounter';
-import { Typography, Box, Paper } from '@mui/material';
+import { Typography, Box, Paper, Link } from '@mui/material'; // Añadido 'Link' aquí
+import GitHubIcon from '@mui/icons-material/GitHub'; // Importado el icono de GitHub
 import CustomPagination from './components/ui/CustomPagination';
-import { AnimatePresence, motion, easeInOut } from 'framer-motion';
+import { ThemeProvider } from '@mui/material/styles'; // Para el tema de Material-UI
+import CssBaseline from '@mui/material/CssBaseline'; // Para el reset CSS de Material-UI
+import theme from './theme'; 
+import { AnimatePresence, motion, easeInOut } from 'framer-motion'; // Asegurado que 'motion' esté importado
 
 type FilterType = 'all' | 'completed' | 'pending';
 
@@ -28,7 +32,7 @@ const loadTasksFromLocalStorage = (): Task[] => {
 /**
  * Componente principal que gestiona el estado global de la aplicación,
  * incluyendo la lista de tareas, el filtro, la paginación y la animación.
- * 
+ *
  * - Permite agregar, editar, eliminar y marcar tareas como completadas.
  * - Filtra tareas por estado (todas, completadas, pendientes).
  * - Implementa paginación y animaciones de transición entre páginas.
@@ -81,9 +85,9 @@ function App() {
   const deleteTask = (id: string) => {
     setTasks((prevTasks) => {
       const updatedTasks = prevTasks.filter((task) => task.id !== id);
-      
+
       const totalPagesAfterDelete = Math.ceil(updatedTasks.length / tasksPerPage);
-      
+
       if (page > totalPagesAfterDelete && totalPagesAfterDelete > 0) {
         setPage(totalPagesAfterDelete);
       } else if (totalPagesAfterDelete === 0) {
@@ -177,95 +181,142 @@ function App() {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        p: 2,
-        background: `linear-gradient(135deg, #1976D2 0%, #42A5F5 50%, #BBDEFB 100%)`,
-        backgroundSize: '300% 300%',
-        backgroundPosition: '0% 50%',
-        animation: 'gradientAnimation 15s ease infinite',
-      }}
-    >
-      <Paper
-        elevation={1}
+    <ThemeProvider theme={theme}>
+      <CssBaseline /> {/* Aplica el reset CSS de Material-UI */}
+      <Box
         sx={{
-          p: 3,
-          borderRadius: 6,
-          width: '100%',
-          maxWidth: { xs: 400, md: 500, lg: 600 },
-          backgroundColor: 'background.paper',
+          minHeight: '100vh',
           display: 'flex',
-          flexDirection: 'column',
-          minHeight: MIN_HEIGHT_MAIN_PAPER,
+          flexDirection: 'column', // Para organizar el título y el Paper verticalmente
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 2,
+          // Fondo degradado animado
+          background: `linear-gradient(135deg, #1976D2 0%, #42A5F5 50%, #BBDEFB 100%)`, // Fondo azul más vibrante
+          backgroundSize: '300% 300%', // Para que el gradiente se mueva
+          backgroundPosition: '0% 50%', // Posición inicial del gradiente
+          animation: 'gradientAnimation 15s ease infinite', // Animación de movimiento del gradiente
+          // Estilos para la animación del gradiente (asegúrate de que esto esté en tu CSS global o en un <style> en index.html)
+          '@keyframes gradientAnimation': {
+            '0%': { backgroundPosition: '0% 50%' },
+            '50%': { backgroundPosition: '100% 50%' },
+            '100%': { backgroundPosition: '0% 50%' },
+          },
         }}
       >
-        {/* Título principal */}
-        <Typography variant="h4" component="h1" align="center" gutterBottom
-          sx={{ color: 'text.primary', fontWeight: 'bold', mb: 3 }}
-        >
-          Lista de Tareas
-        </Typography>
-
-        {/* Formulario para añadir tareas */}
-        <TaskForm onAddTask={addTask} />
-        {/* Botones de filtro */}
-        <FilterButtons currentFilter={filter} onSetFilter={setFilter} />
-        {/* Contador de tareas */}
-        <TaskCounter totalTasks={tasks.length} completedTasks={completedCount} />
-        
-        {/* Contenedor de la lista de tareas con altura mínima y animación de página */}
-        <Box
-          sx={{
-            minHeight: MIN_HEIGHT_TASK_LIST_CONTAINER,
-            flexGrow: 1,
-            overflow: 'hidden',
-            position: 'relative',
-            mt: 2,
-            mb: 2,
-          }}
-        >
-          <AnimatePresence initial={false} mode="wait">
+        {/* === Título principal con icono de GitHub y animación de bounce === */}
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          mb: 3, // Margen inferior para separar del formulario
+          mt: 1 // Margen superior para despegarlo del borde
+        }}>
+          <Typography
+            variant="h2"
+            component="h1"
+            align="center"
+            sx={{
+              color: 'white', // Color del texto blanco para resaltar sobre el fondo
+              fontWeight: 'bold',
+              mr: 1 // Margen a la derecha para separar del icono
+            }}
+          >
+            Lista de Tareas
+          </Typography>
+          <Link
+            href="https://github.com/Jmdv1999/Top-Level-Evaluacion"
+            target="_blank"
+            rel="noopener noreferrer"
+            color="inherit"
+            sx={{ display: 'flex', alignItems: 'center' }}
+          >
+            {/* Componente motion.div para la animación de rebote */}
             <motion.div
-              key={page}
-              variants={pageVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              transition={pageTransition}
-              style={{
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                top: 0,
-                left: 0,
+              animate={{ y: [0, -6, 0] }} // Mueve 6px hacia arriba y vuelve
+              transition={{
+                repeat: Infinity, // Repite la animación indefinidamente
+                duration: 1.8,    // Duración de cada ciclo de rebote (más lento)
+                ease: "easeInOut",// Curva de aceleración suave
+                delay: 0.8        // Pequeño retraso antes de que empiece la animación
               }}
             >
-              {/* Lista de tareas animada */}
-              <TaskList
-                tasks={currentTasks}
-                onUpdateTask={updateTask}
-                onDeleteTask={deleteTask}
-                onToggleComplete={toggleComplete}
-              />
+              <GitHubIcon sx={{ fontSize: 48, color: 'white' }} /> {/* Tamaño y color del icono */}
             </motion.div>
-          </AnimatePresence>
+          </Link>
         </Box>
+        {/* === FIN: Título principal con icono de GitHub === */}
 
-        {/* Paginación si hay más de una página */}
-        {totalPages > 1 && (
-          <CustomPagination
-            count={totalPages}
-            page={page}
-            onChange={handlePageChange}
-            sx={{ mt: 'auto' }}
-          />
-        )}
-      </Paper>
-    </Box>
+        <Paper
+          elevation={1}
+          sx={{
+            p: 3,
+            borderRadius: 6,
+            width: '100%',
+            maxWidth: { xs: 400, md: 500, lg: 600 },
+            backgroundColor: 'background.paper', // Usa el color de fondo definido en tu tema
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: MIN_HEIGHT_MAIN_PAPER,
+          }}
+        >
+          {/* Formulario para añadir tareas */}
+          <TaskForm onAddTask={addTask} />
+          {/* Botones de filtro */}
+          <FilterButtons currentFilter={filter} onSetFilter={setFilter} />
+          {/* Contador de tareas */}
+          <TaskCounter totalTasks={tasks.length} completedTasks={completedCount} />
+
+          {/* Contenedor de la lista de tareas con altura mínima y animación de página */}
+          <Box
+            sx={{
+              minHeight: MIN_HEIGHT_TASK_LIST_CONTAINER,
+              flexGrow: 1,
+              overflow: 'hidden',
+              position: 'relative',
+              mt: 2,
+              mb: 2,
+            }}
+          >
+            <AnimatePresence initial={false} mode="wait">
+              <motion.div
+                key={page}
+                variants={pageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={pageTransition}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                }}
+              >
+                {/* Lista de tareas animada */}
+                <TaskList
+                  tasks={currentTasks}
+                  onUpdateTask={updateTask}
+                  onDeleteTask={deleteTask}
+                  onToggleComplete={toggleComplete}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </Box>
+
+          {/* Paginación si hay más de una página */}
+          {totalPages > 1 && (
+            <CustomPagination
+              count={totalPages}
+              page={page}
+              onChange={handlePageChange}
+              sx={{ mt: 'auto' }}
+            />
+          )}
+        </Paper>
+      </Box>
+    </ThemeProvider>
   );
 }
 
