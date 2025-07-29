@@ -1,69 +1,101 @@
-# React + TypeScript + Vite
+# 🚀 Prueba Tecnica Top Level
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🛠️ Cómo Inicializar el Proyecto
 
-Currently, two official plugins are available:
+Sigue estos pasos para poner en marcha el proyecto en tu máquina local.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Prerrequisitos
 
-## Expanding the ESLint configuration
+Asegúrate de tener instalado:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- [Node.js](https://nodejs.org/es/) (versión 18 o superior recomendada)
+- [npm](https://www.npmjs.com/) (viene con Node.js) o [Yarn](https://yarnpkg.com/)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Descarga e Instalación
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+1. **Clona el repositorio de GitHub:**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+   ```bash
+   git clone https://github.com/Jmdv1999/Top-Level-Evaluacion.git
+   ```
+
+2. **Navega al directorio del proyecto:**
+
+   ```bash
+   cd Top-Level-Evaluacion
+   ```
+
+3. **Instala las dependencias:**
+
+   ```bash
+   npm install
+   # o si usas Yarn:
+   yarn
+   ```
+
+### Ejecutar la Aplicación
+
+Una vez instaladas las dependencias, inicia el servidor de desarrollo:
+
+```bash
+npm run dev
+# o si usas Yarn:
+yarn dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+La aplicación se abrirá automáticamente en tu navegador en [http://localhost:5173](http://localhost:5173).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🏗️ Construir para Producción
+
+Para crear una versión optimizada de tu aplicación lista para desplegar:
+
+```bash
+npm run build
+# o si usas Yarn:
+yarn build
 ```
+
+Esto generará los archivos estáticos en la carpeta `dist/`.
+
+---
+
+## 💡 Cómo Utilizar la Aplicación
+
+### Añadir Tareas
+
+- Escribe la descripción de tu tarea en el campo de texto en la parte superior.
+- Presiona **Enter** o haz clic en el botón "Añadir Tarea" para agregarla a la lista.
+
+### Marcar/Desmarcar Tareas
+
+- Haz clic en el checkbox al lado de cada tarea para marcarla como completada o desmarcarla.
+
+### Editar Tareas
+
+- Haz clic en el icono de lápiz (Editar) junto a una tarea.
+- Modifica el texto en el campo que aparece.
+- Presiona **Enter** o haz clic en el icono de "Guardar" (check) para confirmar los cambios.
+- Haz clic en el icono de "Cancelar" (X) para descartar los cambios.
+
+### Eliminar Tareas
+
+- Haz clic en el icono de cubo de basura (Eliminar) junto a una tarea.
+
+### Filtrar Tareas
+
+- Utiliza los botones de filtro (Todas, Completadas, Pendientes) para ver solo las tareas que te interesan.
+
+### Navegar por Páginas (Paginación)
+
+- Si tienes muchas tareas, usa los botones de números o las flechas de navegación en la parte inferior de la lista para pasar de una página a otra.
+
+---
+
+## ⌨️ Atajos de Teclado
+
+- **Enter** (en el campo "Añadir tarea"): Añade una nueva tarea.
+- **Enter** (mientras editas una tarea): Guarda los cambios de la edición.
+- **Flecha Izquierda (←):** Navega a la página anterior de la lista de tareas (cuando la paginación está activa).
+- **Flecha Derecha (→):** Navega a la página siguiente de la lista de tareas (cuando la paginación está activa).
